@@ -18,7 +18,7 @@ def isNumeric(token):
     return True
 
 kutadguLa = []
-kutadguLaFile = open("../Text/kutadgu_bilig.txt", "r")
+kutadguLaFile = open("../Text/rawLa.txt", "r")
 for line in kutadguLaFile:
     kutadguLa.append(line.strip())
 kutadguLaFile.close()
@@ -50,6 +50,6 @@ for line in kutadguLa:
             print(token)
     kutadguAr.append(lineAr)
 
-kutadguArFile = open("../Text/kutadgu_bilig_ar.txt", "w")
+kutadguArFile = open("../Text/rawFinal.txt", "w")
 kutadguArFile.write("\n".join(kutadguAr))
 kutadguArFile.close()
