@@ -1,4 +1,5 @@
 import csv
+import re
 
 digits = {"1":"۱", 
           "2":"۲", 
@@ -17,6 +18,7 @@ def isNumeric(token):
             return False
     return True
 
+
 kutadguLa = []
 kutadguLaFile = open("../Text/rawLa.txt", "r")
 for line in kutadguLaFile:
@@ -31,24 +33,50 @@ with open("../Text/supervisedWords.csv", newline='', encoding="utf-8") as csvfil
         la2ArDict[row[0]] = row[2]
 
 kutadguAr = []
-for line in kutadguLa:
+beytIndex = 0.
+for i, line in enumerate(kutadguLa):
+    if line == "_" * 48:
+        continue
+    # A line with only digits
+    if re.search(r"^\d+$", line):
+        continue
+    # A line with only Roman numbers
+    if re.fullmatch(r"\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,4})(IX|IV|V?I{0,3})\b", line.upper()):
+        continue
     lineAr = ""
     for token in line.split():
         if token in la2ArDict:
             lineAr += la2ArDict[token] + " "
         elif isNumeric(token):
-            lineAr += "\n"
             for character in token:
                 if character == ".":
                     lineAr += "."
                 else:
                     lineAr+= digits[character]
-        elif token == "_" * 48:
-            lineAr += token
         else:
             lineAr += token + " "
             print(token)
-    kutadguAr.append(lineAr)
+    if lineAr != "":
+        kutadguAr.append(lineAr)
+
+kutadguArTmp = []
+for i, line in enumerate(kutadguAr):
+    if line[:3] == "بیت":
+        kutadguArTmp.append("")
+    elif re.fullmatch(r"باب [۱۲۳۴۵۶۷۸۹۰]{4}\.", line):
+        kutadguArTmp.append("")
+    kutadguArTmp.append(line)
+
+offset = 0
+for i in range(len(kutadguArTmp)-3):
+    index = i + offset
+    line = kutadguArTmp[index]
+    if line[:3] == "بیت" and kutadguArTmp[index + 3] != "":
+        kutadguArTmp.insert(index + 3, "")
+        offset += 1
+
+
+kutadguAr = kutadguArTmp[:]
 
 kutadguArFile = open("../Text/rawFinal.txt", "w")
 kutadguArFile.write("\n".join(kutadguAr))
