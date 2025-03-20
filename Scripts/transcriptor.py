@@ -18,6 +18,25 @@ def isNumeric(token):
             return False
     return True
 
+def roman2Arabic(roman: str) -> int:
+    roman_values = {
+        'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100,
+        'D': 500, 'M': 1000
+    }
+    total = 0
+    prev_value = 0
+    for char in reversed(roman):  # Process from right to left
+        value = roman_values[char]
+        if value < prev_value:
+            total -= value  # Subtractive notation (e.g., IV = 4)
+        else:
+            total += value
+        prev_value = value
+    return str(total)
+
+def removeHindiNumbers(text):
+    pattern = r"(?<!بیت )[۱۲۳۴۵۶۷۸۹۰]{4}\."
+    return re.sub(pattern, "", text)
 
 kutadguLa = []
 kutadguLaFile = open("../Text/rawLa.txt", "r")
@@ -42,6 +61,11 @@ for i, line in enumerate(kutadguLa):
         continue
     # A line with only Roman numbers
     if re.fullmatch(r"\bM{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,4})(IX|IV|V?I{0,3})\b", line.upper()):
+        arNumber = roman2Arabic(line.upper())
+        lineAr = ""
+        for character in arNumber:
+            lineAr += digits[character]
+        kutadguAr.append(lineAr)
         continue
     lineAr = ""
     for token in line.split():
@@ -57,7 +81,7 @@ for i, line in enumerate(kutadguLa):
             lineAr += token + " "
             print(token)
     if lineAr != "":
-        kutadguAr.append(lineAr)
+        kutadguAr.append(removeHindiNumbers(lineAr))
 
 kutadguArTmp = []
 for i, line in enumerate(kutadguAr):
