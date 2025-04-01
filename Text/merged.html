@@ -1,4 +1,4 @@
-htmlTop = """
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,9 +64,7 @@ htmlTop = """
                 <th class="ltr">Kutadğu Bilig</th>
                 <th class="rtl">قوتادغو بیلیگ</th>
             </tr>
-"""
 
-htmlBottom = """
             <tr>
                 <td class="ltr">This is a long text line in the left column to help debug the code properly. This line should align with the right column line.</td>
                 <td class="rtl">هذا هو نص طويل في العمود الأيمن للمساعدة في تصحيح الكود بشكل صحيح. يجب أن تتماشى هذه السطر مع السطر في العمود الأيسر.</td>
@@ -83,27 +81,3 @@ htmlBottom = """
     </div>
 </body>
 </html>
-"""
-
-
-
-
-
-if __name__ == "__main__":
-    mergedLines = []
-    mergedFile = open("../Text/merged.txt", "r")
-    for line in mergedFile:
-        mergedLines.append(line.strip())
-    mergedFile.close()
-
-    mergedHtml = ""
-
-    htmlFile = open("../Text/merged.html", "w")
-    htmlFile.write(htmlTop + mergedHtml + htmlBottom)
-    htmlFile.close()
-
-
-
-
-
-
