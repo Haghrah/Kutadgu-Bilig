@@ -97,6 +97,14 @@ if __name__ == "__main__":
     mergedFile.close()
 
     mergedHtml = ""
+    for i in range(len(mergedLines) // 2):
+        mergedHtml += f"""
+            <tr>
+                <td class="ltr">{mergedLines[2 * i + 0]}</td>
+                <td class="rtl">{mergedLines[2 * i + 1]}</td>
+            </tr>
+"""
+
 
     htmlFile = open("../Text/merged.html", "w")
     htmlFile.write(htmlTop + mergedHtml + htmlBottom)
