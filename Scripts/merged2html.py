@@ -1,3 +1,5 @@
+import re
+
 htmlTop = """
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +16,7 @@ htmlTop = """
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
+            background-color: #E8F5E9;
             overflow-y: auto; /* Ensure vertical scrolling */
         }
         h1 {
@@ -36,15 +38,15 @@ htmlTop = """
             border-collapse: collapse;
         }
         th, td {
-            padding: 20px 40px; /* Add padding to create distance from the borders */
+            padding: 10px 10px; /* Add padding to create distance from the borders */
             text-align: left;
             border-bottom: 2px solid #444;
         }
         th {
-            background-color: #cfe3ff; /* Light blue for a tranquil feel */
+            background-color: #A5D6A7; 
         }
         td {
-            background-color: #d5e8d4; /* Light green for a soothing effect */
+            background-color: #C8E6C9;
         }
         .rtl {
             text-align: right;
@@ -53,6 +55,16 @@ htmlTop = """
         .ltr {
             text-align: left;
             direction: ltr;
+        }
+        .beytnumber {
+            border-bottom: 0;
+        }
+        .babnumber {
+            border-bottom: 0;
+        }
+        .bab {
+            font-size: 1.0rem;
+            font-weight: 800;
         }
     </style>
 </head>
@@ -97,13 +109,49 @@ if __name__ == "__main__":
     mergedFile.close()
 
     mergedHtml = ""
-    for i in range(len(mergedLines) // 2):
-        mergedHtml += f"""
-            <tr>
-                <td class="ltr">{mergedLines[2 * i + 0]}</td>
-                <td class="rtl">{mergedLines[2 * i + 1]}</td>
-            </tr>
-"""
+    i = 0
+    while i < len(mergedLines) // 2:
+        if mergedLines[2 * i + 0][:4] == "beyt":
+            mergedHtml += f"""
+                <tr>
+                    <td class="ltr beytnumber"></td>
+                    <td class="rtl beytnumber">{mergedLines[2 * (i + 0) + 1]}</td>
+                </tr>
+                <tr>
+                    <td class="ltr">
+                        {mergedLines[2 * (i + 1) + 0]}
+                        <br/>
+                        {mergedLines[2 * (i + 2) + 0]}
+                    </td>
+                    <td class="rtl">
+                        {mergedLines[2 * (i + 1) + 1]}
+                        <br/>
+                        {mergedLines[2 * (i + 2) + 1]}
+                    </td>
+                </tr>"""
+            i += 3
+        elif re.fullmatch(r"^[\d]+$", mergedLines[2 * i + 0]):
+            mergedHtml += f"""
+                <tr>
+                    <td class="ltr bab babnumber"></td>
+                    <td class="rtl bab babnumber">{mergedLines[2 * (i + 0) + 1]}</td>
+                </tr>
+                <tr>
+                    <td class="ltr bab">
+                        {mergedLines[2 * (i + 1) + 0]}
+                    </td>
+                    <td class="rtl bab">
+                        {mergedLines[2 * (i + 1) + 1]}
+                    </td>
+                </tr>"""
+            i += 2
+        else:
+            mergedHtml += f"""
+                <tr>
+                    <td class="ltr">{mergedLines[2 * i + 0]}</td>
+                    <td class="rtl">{mergedLines[2 * i + 1]}</td>
+                </tr>"""
+            i += 1
 
 
     htmlFile = open("../Text/merged.html", "w")
