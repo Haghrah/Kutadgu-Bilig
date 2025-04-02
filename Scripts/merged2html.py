@@ -1,5 +1,16 @@
 import re
 
+digits = {"1":"۱", 
+          "2":"۲", 
+          "3":"۳", 
+          "4":"۴", 
+          "5":"۵", 
+          "6":"۶", 
+          "7":"۷", 
+          "8":"۸", 
+          "9":"۹", 
+          "0":"۰", }
+
 htmlTop = """
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +77,10 @@ htmlTop = """
             font-size: 1.0rem;
             font-weight: 800;
         }
+        .babintro {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -79,18 +94,6 @@ htmlTop = """
 """
 
 htmlBottom = """
-            <tr>
-                <td class="ltr">This is a long text line in the left column to help debug the code properly. This line should align with the right column line.</td>
-                <td class="rtl">هذا هو نص طويل في العمود الأيمن للمساعدة في تصحيح الكود بشكل صحيح. يجب أن تتماشى هذه السطر مع السطر في العمود الأيسر.</td>
-            </tr>
-            <tr>
-                <td class="ltr">Another long text line in the left column to ensure proper alignment with the right column. Debugging is easier with longer texts.</td>
-                <td class="rtl">نص طويل آخر في العمود الأيمن لضمان المحاذاة الصحيحة مع العمود الأيسر. يكون التصحيح أسهل مع النصوص الأطول.</td>
-            </tr>
-            <tr>
-                <td class="ltr">Yet another long text line in the left column to test out the alignment and spacing between the two columns.</td>
-                <td class="rtl">نص طويل آخر في العمود الأيمن لاختبار المحاذاة والمسافة بين العمودين.</td>
-            </tr>
         </table>
     </div>
 </body>
@@ -130,6 +133,20 @@ if __name__ == "__main__":
                     </td>
                 </tr>"""
             i += 3
+        elif mergedLines[2 * i + 0][:3] == "bâb":
+            bab = ""
+            for digit in str(int(mergedLines[2 * i + 0][4:-1])):
+                bab += digits[digit]
+            mergedHtml += f"""
+            <tr>
+                <td class="ltr babintro babnumber"></td>
+                <td class="rtl babintro babnumber">{mergedLines[2 * (i + 0) + 1]} {bab}</td>
+            </tr>
+            <tr>
+                <td class="ltr babintro">{mergedLines[2 * (i + 1) + 0]}</td>
+                <td class="rtl babintro">{mergedLines[2 * (i + 1) + 1]}</td>
+            </tr>"""
+            i += 2
         elif re.fullmatch(r"^[\d]+$", mergedLines[2 * i + 0]):
             mergedHtml += f"""
                 <tr>
