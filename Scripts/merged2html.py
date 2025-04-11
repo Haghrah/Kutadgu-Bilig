@@ -105,6 +105,8 @@ htmlTop = """
             z-index: 1000; /* Ensure it's on top */
             pointer-events: none; /* IMPORTANT: Prevents the tooltip itself from blocking mouse events */
             background-color: lightyellow; /* Make it visually distinct */
+            text-align: right;
+            direction: rtl;
         }
     </style>
 </head>
@@ -241,10 +243,14 @@ htmlBottom = """
 def tooltip(token):
     return "بو سؤزجۆگۆن نه آنلاما گلدیگینی بورایا اکله‌یه‌جگم!"
 
+
 def addTooltip(text):
     withTooltip = ""
     for token in text.split():
-        withTooltip += f"<span class=\"word-tooltip\" data-explanation=\"{tooltip(token)}\">{token}</span> "
+        if len(token) < 2:
+            withTooltip += f"{token} "
+        else:
+            withTooltip += f"<span class=\"word-tooltip\" data-explanation=\"{tooltip(token)}\">{token}</span> "
     return withTooltip
 
 
