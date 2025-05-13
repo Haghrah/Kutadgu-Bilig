@@ -272,9 +272,9 @@ if __name__ == "__main__":
                 </tr>
                 <tr>
                     <td class="ltr">
-                        {addTooltip(mergedLines[2 * (i + 1) + 0])}
+                        {mergedLines[2 * (i + 1) + 0]}
                         <br/>
-                        {addTooltip(mergedLines[2 * (i + 2) + 0])}
+                        {mergedLines[2 * (i + 2) + 0]}
                     </td>
                     <td class="rtl">
                         {addTooltip(mergedLines[2 * (i + 1) + 1])}
@@ -293,7 +293,7 @@ if __name__ == "__main__":
                 <td class="rtl babintro babnumber">{mergedLines[2 * (i + 0) + 1]} {bab}</td>
             </tr>
             <tr>
-                <td class="ltr babintro">{addTooltip(mergedLines[2 * (i + 1) + 0])}</td>
+                <td class="ltr babintro">{mergedLines[2 * (i + 1) + 0]}</td>
                 <td class="rtl babintro">{addTooltip(mergedLines[2 * (i + 1) + 1])}</td>
             </tr>"""
             i += 2
@@ -305,7 +305,7 @@ if __name__ == "__main__":
                 </tr>
                 <tr>
                     <td class="ltr bab">
-                        {addTooltip(mergedLines[2 * (i + 1) + 0])}
+                        {mergedLines[2 * (i + 1) + 0]}
                     </td>
                     <td class="rtl bab">
                         {addTooltip(mergedLines[2 * (i + 1) + 1])}
@@ -315,7 +315,7 @@ if __name__ == "__main__":
         else:
             mergedHtml += f"""
                 <tr>
-                    <td class="ltr">{addTooltip(mergedLines[2 * i + 0])}</td>
+                    <td class="ltr">{mergedLines[2 * i + 0]}</td>
                     <td class="rtl">{addTooltip(mergedLines[2 * i + 1])}</td>
                 </tr>"""
             i += 1
