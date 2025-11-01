@@ -1,4 +1,5 @@
 import re
+import json
 
 digits = {"1":"۱", 
           "2":"۲", 
@@ -239,9 +240,14 @@ htmlBottom = """
 </html>
 """
 
+with open("tooltips.json", "r") as file:
+    tooltipData = json.load(file)
 
 def tooltip(token):
-    return "بو سؤزجۆگۆن نه آنلاما گلدیگینی بورایا اکله‌یه‌جگم!"
+    try:
+        return tooltipData[token]
+    except KeyError:
+        return "بو سؤزجۆگۆن نه آنلاما گلدیگینی بورایا اکله‌یه‌جگم!"
 
 
 def addTooltip(text):
